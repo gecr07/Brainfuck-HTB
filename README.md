@@ -284,24 +284,91 @@ Vamos a poner eso en un index.html y se supone que nos va a loggear como cualqui
 ![image](https://github.com/gecr07/Brainfuck-HTB/assets/63270579/22dd2353-35d9-43f0-8253-4707c3e2dd75)
 
 
+Dentro de los plugins existe el SMTP y ahi tenemos un password. ( Siempre que se tengas passwords intenta ver si se reutilizaron)
+
+
+![image](https://github.com/gecr07/Brainfuck-HTB/assets/63270579/f7a9ee70-9e43-416d-b542-ca29ebe34a15)
+
+```
+orestis:kHGuERB29DNiNE
+```
+
+### POP3 110 
+
+Siempre que tengas este servicio intenta conectarte loggearte y leer correos esto funciona mas con telnet.
+
+> https://book.hacktricks.xyz/network-services-pentesting/pentesting-pop
+
+```
+nc IP port
+telnet IP port
+
+### Para checar los correos
+
++OK Dovecot ready.
+user orestis
++OK
+pass kHGuERB29DNiNE
++OK Logged in.
+
+
+```
+
+
+![image](https://github.com/gecr07/Brainfuck-HTB/assets/63270579/f3e6f37f-8a32-41d4-bfb7-f51631104b38)
+
+De nuevo vamos a probar que se reultizaran las credenciales tenemos un subdominio (s3cret).
+
+```
+username: orestis
+password: kIEnnfEKJ#9UmdO
+```
+
+![image](https://github.com/gecr07/Brainfuck-HTB/assets/63270579/5a121173-e5ed-4a1c-aacf-a849d45eacd2)
+
+Ahora tenemos una especie de cifrado. Cuando tienes el texto cifrado y el descifrado se puede calcular el password con el que se cifro e incluso que cifrado es. Probamos algunas paginas que nos ayudarian:
+
+> https://quipqiup.com/
+
+![image](https://github.com/gecr07/Brainfuck-HTB/assets/63270579/da838b08-3d9b-4f1c-9025-b469f3eff8f1)
+
+Esta dificil adivinar pero bueno existe otra pagina. (vigenere)
+
+> https://www.dcode.fr/cifrado-vigenere?__r=1.a143976822f08acbf1be3a46d2a08bc7
 
 
 
+```
+Qbqquzs - Pnhekxs dpi fca fhf zdmgzt
+
+Orestis - Hacking for fun and profit
+
+
+fuckmybrain
+```
+
+![image](https://github.com/gecr07/Brainfuck-HTB/assets/63270579/f4792885-fc08-4c26-9fd6-93fe4df2823b)
 
 
 
+Entonces tal y como en el CEH decia si tienes el texto cifrado y el decifrado se puede hacer un ataque de fuerza bruta y obtener el pass...Ya con la clave nos descargamos una id_rsa.
 
 
+```
+There you go you stupid fuck, I hope you remember your key password because I dont :)
 
+https://brainfuck.htb/8ba5aa10e915218697d1c658cdee0bb8/orestis/id_rsa
+```
 
+### HASH
 
+La id_rsa se puede crackear
 
-
-
-
-
-
-
+```
+john -w /usr/share/wordlists/rockyou.txt hash
+john --show hash
+3poulakia!
+```
 
 
 
