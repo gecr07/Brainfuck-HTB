@@ -370,10 +370,56 @@ john --show hash
 3poulakia!
 ```
 
+### SSH
+
+![image](https://github.com/gecr07/Brainfuck-HTB/assets/63270579/c76e0bad-2b4e-4f5a-8d27-2abb6c00e91e)
+
+## Privilege Escalation   
+
+Para esta parte de entrada usamos el comanod id y nos damos cuenta que esta en el grupo de lxd (contenedores) Ya de entrada es una via potencial de escalar priv.
 
 
+![image](https://github.com/gecr07/Brainfuck-HTB/assets/63270579/0e62c26a-da1d-46e2-854c-c06708f5e714)
+
+> https://book.hacktricks.xyz/linux-hardening/privilege-escalation/interesting-groups-linux-pe/lxd-privilege-escalation
 
 
+![image](https://github.com/gecr07/Brainfuck-HTB/assets/63270579/94aef452-bd73-48fb-be34-9f3dba4a4b00)
+
+
+### Metodo 2
+
+Si vemos los archivos de orestis nos encontramos con un archivo que al parecer cifra la bandera y tiene toda la pinta que es rsa.
+
+![image](https://github.com/gecr07/Brainfuck-HTB/assets/63270579/561ab49b-452e-48de-9c4d-9554914b9aef)
+
+
+Si miramos bien en output guarda todos los datos que se necesitas para hacer el proceso inverso.
+
+> https://www.cryptool.org/en/cto/rsa-step-by-step.html
+
+Ponemos step by step.
+
+![image](https://github.com/gecr07/Brainfuck-HTB/assets/63270579/ae978224-131d-44fc-a9f6-6cd86e73cf18)
+
+
+En el script nos damos cuenta que de  alguna manera lo pasa de hex a int. Para que nos de la flag nos regresa un valor int(rsa tiene que trabajar en int para los numeros primos) el resultado lo pasamos a hex despues ya ahi con xxd lo pasamos de hex ascii.
+
+
+```
+m = Integer(int(password.encode('hex'),16))
+python
+hex(numero)
+echo "3665666331613564626238393034373531636536353636613330356262386566" | xxd -ps 
+```
+
+![image](https://github.com/gecr07/Brainfuck-HTB/assets/63270579/9cbcdd59-ef95-41c5-8797-67b3a3d2a625)
+
+
+![image](https://github.com/gecr07/Brainfuck-HTB/assets/63270579/a650600b-0f8b-44a0-97fd-587940a14682)
+
+
+![image](https://github.com/gecr07/Brainfuck-HTB/assets/63270579/310186a4-a6db-4252-a852-7f7308005c24)
 
 
 
